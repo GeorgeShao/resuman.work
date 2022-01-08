@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
 import {
+  Box,
   Container,
   Link,
   Table,
@@ -257,7 +258,7 @@ function MainList(props) {
         </AlertDialogOverlay>
       </AlertDialog>
 
-      <Table variant="simple" mb="30">
+      <Table variant="simple" mb="30" >
         <Thead>
           <Tr>
             <Th>NAME</Th>

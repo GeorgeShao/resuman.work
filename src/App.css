@@ -45,4 +45,9 @@
 
 .mainlistitem-active {
   background-color: #7bd2fa;
+  cursor: pointer;
+}
+
+.mainlistitem-inactive {
+  cursor: pointer;
 }
