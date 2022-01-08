@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
 import {
-  Box,
   Container,
   Link,
   Table,
@@ -37,6 +36,7 @@ import { API, Storage, graphqlOperation } from "aws-amplify";
 import { filesByUsername } from "../../graphql/queries";
 import {
   createUploadedFile as createUploadedFileMutation,
+  updateUploadedFile as updateUploadedFileMutation,
   deleteUploadedFile as deleteUploadedFileMutation,
 } from "../../graphql/mutations";
 
@@ -56,9 +56,12 @@ function MainList(props) {
   const [uploadedPDF, setUploadedPDF] = useState();
   const [saveButtonIsDisabled, setSaveButtonIsDisabled] = useState(true);
 
-  const [removeDialogIsOpen, setRemoveDialogIsOpen] = React.useState(false)
-  const onRemoveDialogClose = () => setRemoveDialogIsOpen(false)
-  const removeDialogCancelRef = React.useRef()
+  const [onEditMode, setOnEditMode] = useState(false);
+  const [editButtonIsDisabled, setEditButtonIsDisabled] = useState(true);
+
+  const [removeDialogIsOpen, setRemoveDialogIsOpen] = React.useState(false);
+  const onRemoveDialogClose = () => setRemoveDialogIsOpen(false);
+  const removeDialogCancelRef = React.useRef();
   const [removeButtonIsDisabled, setRemoveButtonIsDisabled] = useState(true);
 
   const toast = useToast();
@@ -71,6 +74,8 @@ function MainList(props) {
     try {
       if (formData.customURL && formData.resumeName && uploadedPDF) {
         setSaveButtonIsDisabled(false);
+      } else if (formData.customURL && formData.resumeName && onEditMode) {
+        setSaveButtonIsDisabled(false);
       } else {
         setSaveButtonIsDisabled(true);
       }
@@ -82,8 +87,10 @@ function MainList(props) {
   useEffect(() => {
     if (selectedPDF) {
       setRemoveButtonIsDisabled(false);
+      setEditButtonIsDisabled(false);
     } else {
       setRemoveButtonIsDisabled(true);
+      setEditButtonIsDisabled(true);
     }
   }, [selectedPDF]);
 
@@ -115,6 +122,7 @@ function MainList(props) {
         ).then((response) => {
           if (PDFFromAPI) {
             setPDF(PDFFromAPI);
+            console.log("PDFFromAPI:", ...PDFFromAPI);
           }
         });
       });
@@ -122,16 +130,29 @@ function MainList(props) {
   }
 
   async function createUploadedFile() {
-    if (!formData.customURL || !formData.resumeName || !uploadedPDF) return;
     formData.username = props.username;
     formData.s3URL = props.username + "/" + uploadedPDF.name;
     await API.graphql({
       query: createUploadedFileMutation,
       variables: { input: formData },
     });
-    const s3URL = await Storage.get(formData.s3URL);
-    formData.s3URL = s3URL;
-    setPDF([...PDF, formData]);
+    fetchPDF();
+    setFormData(initialFormState);
+  }
+
+  async function updateUploadedFile() {
+    formData.username = props.username;
+    formData.id = selectedPDF;
+    if (uploadedPDF) {
+      formData.s3URL = props.username + "/" + uploadedPDF.name;
+    } else {
+      formData.s3URL = undefined;
+    }
+    await API.graphql({
+      query: updateUploadedFileMutation,
+      variables: { input: formData },
+    });
+    fetchPDF();
     setFormData(initialFormState);
   }
 
@@ -151,22 +172,19 @@ function MainList(props) {
   }
 
   function openAddModal() {
+    setOnEditMode(false);
     setFormData(initialFormState);
     setUploadedPDF();
     onOpen();
   }
 
   async function closeAddModal() {
-    if (formData.customURL && formData.resumeName && uploadedPDF) {
-      await setSaveButtonIsDisabled(true);
-      await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF);
-      await createUploadedFile();
-      onClose();
-      toastHelper("Resume saved", "success");
-      fetchPDF();
-    } else {
-      toastHelper("Resume not saved", "error", "Empty fields present");
-    }
+    await setSaveButtonIsDisabled(true);
+    await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF);
+    await createUploadedFile();
+    onClose();
+    toastHelper("Resume saved", "success");
+    fetchPDF();
   }
 
   async function closeDeleteModal() {
@@ -175,26 +193,65 @@ function MainList(props) {
     onRemoveDialogClose();
   }
 
+  async function openEditModal() {
+    setOnEditMode(true);
+    let chosenPDF = PDF.filter((pdf) => pdf.id === selectedPDF)[0];
+    setFormData({
+      resumeName: chosenPDF.resumeName,
+      s3URL: chosenPDF.s3URL,
+      customURL: chosenPDF.customURL,
+      username: props.username,
+    });
+    setUploadedPDF();
+    onOpen();
+  }
+
+  async function closeEditModal() {
+    await setSaveButtonIsDisabled(true);
+    if (uploadedPDF) {
+      await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF);
+    }
+    await updateUploadedFile();
+    onClose();
+    toastHelper("Resume saved", "success");
+    fetchPDF();
+  }
+
   return (
     <Container textAlign="left" mb={8} pl={8} pr={8} maxW="7xl">
-
       <Button ml="2" onClick={openAddModal} _hover={{ bg: "brand.light" }}>
         Add
       </Button>
-      <Button ml="2" onClick={() => setRemoveDialogIsOpen(true)} _hover={{ bg: "brand.light" }} isDisabled={removeButtonIsDisabled}>
+      <Button
+        ml="2"
+        onClick={() => setRemoveDialogIsOpen(true)}
+        _hover={{ bg: "brand.light" }}
+        isDisabled={removeButtonIsDisabled}
+      >
         Delete
+      </Button>
+      <Button
+        ml="2"
+        onClick={openEditModal}
+        _hover={{ bg: "brand.light" }}
+        isDisabled={editButtonIsDisabled}
+      >
+        Edit
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add a new resume</ModalHeader>
+          <ModalHeader>
+            {onEditMode ? "Edit resume" : "Add a new resume"}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>Resume name</FormLabel>
               <Input
                 placeholder="John Smith Software Dev Resume"
+                value={formData.resumeName}
                 onChange={(e) =>
                   setFormData({ ...formData, resumeName: e.target.value })
                 }
@@ -206,6 +263,7 @@ function MainList(props) {
               </FormLabel>
               <Input
                 placeholder="johnsmith_software_resume"
+                value={formData.customURL}
                 onChange={(e) =>
                   setFormData({ ...formData, customURL: e.target.value })
                 }
@@ -219,7 +277,7 @@ function MainList(props) {
 
           <ModalFooter>
             <Button
-              onClick={closeAddModal}
+              onClick={onEditMode ? closeEditModal : closeAddModal}
               isDisabled={saveButtonIsDisabled}
               bg="brand.light"
               mr={3}
@@ -258,7 +316,7 @@ function MainList(props) {
         </AlertDialogOverlay>
       </AlertDialog>
 
-      <Table variant="simple" mb="30" >
+      <Table variant="simple" mb="30">
         <Thead>
           <Tr>
             <Th>NAME</Th>
@@ -289,7 +347,6 @@ function MainList(props) {
         </Tbody>
         <TableCaption>Copyright George Shao 2021</TableCaption>
       </Table>
-    
     </Container>
   );
 }
