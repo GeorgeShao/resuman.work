@@ -1,9 +1,8 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import { Box, Flex, Text, Button } from "@chakra-ui/react"
+import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons"
 import Logo from "../ui/Logo"
-
-// import { CloseIcon, MenuIcon } from ".../Icons"
 
 const MenuItems = (props) => {
   const { children, isLast, to = "/", ...rest } = props
@@ -41,7 +40,7 @@ const Header = (props) => {
       </Flex>
 
       <Box display={{ base: "block", md: "none" }} onClick={toggleMenu}>
-        {/* {show ? <CloseIcon /> : <MenuIcon />} */}
+        {show ? <CloseIcon /> : <HamburgerIcon />}
       </Box>
 
       <Box
