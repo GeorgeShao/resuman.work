@@ -7,7 +7,7 @@ import MainList from "../sections/MainList"
 import { Auth } from '@aws-amplify/auth';
 
 export default function DashboardLayout(props) {
-  const [username, setUsername] = useState("user");
+  const [username, setUsername] = useState("");
 
 	useEffect(() => {
 		Auth.currentUserInfo().then((userInfo) => {
@@ -25,8 +25,8 @@ export default function DashboardLayout(props) {
       {...props}
     >
       <DashboardHeader />
-      <WelcomeText username={username}/>
-      <MainList />
+      <WelcomeText username={username} />
+      <MainList username={username} />
       {props.children}
     </Flex>
   )

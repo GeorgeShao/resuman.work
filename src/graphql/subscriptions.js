@@ -5,6 +5,7 @@ export const onCreateUploadedFile = /* GraphQL */ `
   subscription OnCreateUploadedFile {
     onCreateUploadedFile {
       id
+      username
       s3URL
       customURL
       createdAt
@@ -16,6 +17,7 @@ export const onUpdateUploadedFile = /* GraphQL */ `
   subscription OnUpdateUploadedFile {
     onUpdateUploadedFile {
       id
+      username
       s3URL
       customURL
       createdAt
@@ -27,6 +29,7 @@ export const onDeleteUploadedFile = /* GraphQL */ `
   subscription OnDeleteUploadedFile {
     onDeleteUploadedFile {
       id
+      username
       s3URL
       customURL
       createdAt

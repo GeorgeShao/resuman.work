@@ -2,43 +2,49 @@ import React, { useEffect, useState } from 'react'
 import { Container, Link, Table, TableCaption, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react"
 import { ExternalLinkIcon } from "@chakra-ui/icons"
 
-import { API, Storage } from 'aws-amplify';
-import { listUploadedFiles } from '../../graphql/queries';
+import { API, Storage, graphqlOperation } from 'aws-amplify';
+import { filesByUsername } from '../../graphql/queries';
 import { createUploadedFile as createUploadedFileMutation, deleteUploadedFile as deleteUploadedFileMutation } from '../../graphql/mutations';
 
-const initialFormState = { s3URL: '', customURL: '' }
+const initialFormState = { s3URL: '', customURL: '', username: '' }
 
-function MainList() {
+function MainList(props) {
   const [PDF, setPDF] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
 
   useEffect(() => {
     fetchPDF();
-  }, []);
+  }, [props.username]);
 
   async function fetchPDF() {
-    const apiData = await API.graphql({ query: listUploadedFiles });
-    const PDFFromAPI = apiData.data.listUploadedFiles.items;
-    await Promise.all(PDFFromAPI.map(async pdf => {
-      if (pdf.s3URL) {
-        const s3URL = await Storage.get(pdf.s3URL);
-        pdf.s3URL = s3URL;
-      }
-      return pdf;
-    }))
-    setPDF(apiData.data.listUploadedFiles.items);
+    if (props.username){
+      API.graphql(graphqlOperation(filesByUsername, {
+          username: props.username,
+          sortDirection: 'ASC'
+        }))
+        .then((response) => {
+          const PDFFromAPI = response?.data?.filesByUsername?.items;
+          Promise.all(PDFFromAPI.map(async pdf => {
+            const s3URL = await Storage.get(pdf.s3URL);
+            pdf.s3URL = s3URL;
+            return pdf;
+          })).then((response => {
+            if (PDFFromAPI) {
+              setPDF(PDFFromAPI);
+            }
+          }))
+        })
+    }
   }
 
   async function createUploadedFile() {
-    console.log("beginning")
     if (!formData.s3URL || !formData.customURL) return;
-    console.log("initiated", formData)
+    formData.username = props.username
     await API.graphql({ query: createUploadedFileMutation, variables: { input: formData } });
     const s3URL = await Storage.get(formData.s3URL);
     formData.s3URL = s3URL;
     setPDF([ ...PDF, formData ]);
     setFormData(initialFormState);
-    console.log("done")
   }
 
   async function deletepdf({ id }) {
@@ -50,8 +56,8 @@ function MainList() {
   async function onChange(e) {
     if (!e.target.files[0]) return
     const file = e.target.files[0];
-    setFormData({ ...formData, s3URL: file.name });
-    await Storage.put(file.name, file);
+    setFormData({ ...formData, s3URL: props.username + "/" + file.name });
+    await Storage.put(props.username + "/" + file.name, file);
     fetchPDF();
   }
 
@@ -73,7 +79,6 @@ function MainList() {
       />
       <button onClick={createUploadedFile}>Create pdf</button>
       <Table variant="simple" mb="30">
-        <TableCaption>Copyright George Shao 2021</TableCaption>
         <Thead>
           <Tr>
             <Th>s3URL</Th>
@@ -96,6 +101,7 @@ function MainList() {
             ))
           }
         </Tbody>
+        <TableCaption>Copyright George Shao 2021</TableCaption>
       </Table>
     </Container>
   )

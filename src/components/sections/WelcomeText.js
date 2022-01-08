@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Heading } from "@chakra-ui/react"
 
 function WelcomeText(props){

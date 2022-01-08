@@ -1,5 +1,8 @@
-type UploadedFile @model {
+type UploadedFile
+  @model
+  @key(name: "byUsername", fields: ["username", "createdAt"], queryField: "filesByUsername") {
   id: ID!
+  username: String!
   s3URL: String!
   customURL: String!
   createdAt: AWSDateTime
