@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { Link, Table, TableCaption, Thead, Tbody, Tfoot, Tr, Th, Td } from "@chakra-ui/react"
+import { ExternalLinkIcon } from "@chakra-ui/icons"
+
 import { API, Storage } from 'aws-amplify';
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listUploadedFiles } from '../../graphql/queries';
 import { createUploadedFile as createUploadedFileMutation, deleteUploadedFile as deleteUploadedFileMutation } from '../../graphql/mutations';
 
@@ -70,20 +72,31 @@ function MainList() {
         onChange={onChange}
       />
       <button onClick={createUploadedFile}>Create pdf</button>
-      <div style={{marginBottom: 30}}>
-        {
-          PDF.map(pdf => (
-            <div key={pdf.id || pdf.s3URL}>
-              <h2>{pdf.s3URL}</h2>
-              <p>{pdf.customURL}</p>
-              <button onClick={() => deletepdf(pdf)}>Delete pdf</button>
-              {
-                pdf.s3URL && <img src={pdf.s3URL} style={{width: 400}} />
-              }
-            </div>
-          ))
-        }
-      </div>
+      <Table variant="simple" mb="30">
+        <TableCaption>Imperial to metric conversion factors</TableCaption>
+        <Thead>
+          <Tr>
+            <Th>s3URL</Th>
+            <Th>customURL</Th>
+            <Th>link</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {
+            PDF.map(pdf => (
+              <Tr key={pdf.id || pdf.s3URL} _hover={{bg: "brand.light"}}>
+                <Td>test123</Td>
+                <Td>{pdf.customURL}</Td>
+                <Td>
+                <Link href={pdf.s3URL} isExternal>
+                  View <ExternalLinkIcon mx="2px" />
+                </Link>
+                </Td>
+              </Tr>
+            ))
+          }
+        </Tbody>
+      </Table>
     </div>
   )
 }
