@@ -33,7 +33,7 @@ import {
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 import { API, Storage, graphqlOperation } from "aws-amplify";
-import { filesByUsername } from "../../graphql/queries";
+import { filesByUsername, listUploadedFiles } from "../../graphql/queries";
 import {
   createUploadedFile as createUploadedFileMutation,
   updateUploadedFile as updateUploadedFileMutation,
@@ -180,6 +180,24 @@ function MainList(props) {
 
   async function closeAddModal() {
     await setSaveButtonIsDisabled(true);
+    let customURLAlreadyExists = false
+    let filter = {
+      customURL: {eq: formData.customURL}
+    };
+    let fetched_data = await API.graphql(graphqlOperation(listUploadedFiles, {filter:filter}));
+    try {
+      let fetched_customURL = fetched_data.data.listUploadedFiles.items[0];
+      customURLAlreadyExists = true;
+    } catch (error) {
+      customURLAlreadyExists = false;
+    }
+
+    if (customURLAlreadyExists) {
+      toastHelper("Custom link taken", "error");
+      await setSaveButtonIsDisabled(false);
+      return;
+    }
+
     await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF);
     await createUploadedFile();
     onClose();
@@ -208,6 +226,26 @@ function MainList(props) {
 
   async function closeEditModal() {
     await setSaveButtonIsDisabled(true);
+    let customURLAlreadyExists = false
+    let filter = {
+      customURL: {eq: formData.customURL}
+    };
+    let fetched_data = await API.graphql(graphqlOperation(listUploadedFiles, {filter:filter}));
+    try {
+      let fetched_customURL = fetched_data.data.listUploadedFiles.items;
+      let fetched_relevant_data = fetched_customURL.filter((pdf) => pdf["id"] !== selectedPDF);
+      if (fetched_relevant_data.length !== 0) {
+        customURLAlreadyExists = true;
+      }
+    } catch (error) {
+      customURLAlreadyExists = false;
+    }
+
+    if (customURLAlreadyExists) {
+      toastHelper("Custom link taken", "error");
+      await setSaveButtonIsDisabled(false);
+      return;
+    }
     if (uploadedPDF) {
       await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF);
     }
