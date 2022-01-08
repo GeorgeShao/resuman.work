@@ -1,34 +1,19 @@
 {
-  "dev": {
+  "staging": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-resuman-dev-143846-authRole",
-      "UnauthRoleArn": "arn:aws:iam::400585575526:role/amplify-resuman-dev-143846-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::400585575526:role/amplify-resuman-dev-143846-authRole",
+      "AuthRoleName": "amplify-amplifyce163444114b4-staging-193938-authRole",
+      "UnauthRoleArn": "arn:aws:iam::400585575526:role/amplify-amplifyce163444114b4-staging-193938-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::400585575526:role/amplify-amplifyce163444114b4-staging-193938-authRole",
       "Region": "ca-central-1",
-      "DeploymentBucketName": "amplify-resuman-dev-143846-deployment",
-      "UnauthRoleName": "amplify-resuman-dev-143846-unauthRole",
-      "StackName": "amplify-resuman-dev-143846",
-      "StackId": "arn:aws:cloudformation:ca-central-1:400585575526:stack/amplify-resuman-dev-143846/127a4d50-dcf7-11eb-b0c1-065535fffe6a",
-      "AmplifyAppId": "de6ideftay8dl"
+      "DeploymentBucketName": "amplify-amplifyce163444114b4-staging-193938-deployment",
+      "UnauthRoleName": "amplify-amplifyce163444114b4-staging-193938-unauthRole",
+      "StackName": "amplify-amplifyce163444114b4-staging-193938",
+      "StackId": "arn:aws:cloudformation:ca-central-1:400585575526:stack/amplify-amplifyce163444114b4-staging-193938/92114a70-dcff-11eb-b0c1-065535fffe6a",
+      "AmplifyAppId": "d1v1ooh0do0a94"
     },
     "categories": {
-      "function": {
-        "resuman7b9e0248DefineAuthChallenge": {
-          "deploymentBucketName": "amplify-resuman-dev-143846-deployment",
-          "s3Key": "amplify-builds/resuman7b9e0248DefineAuthChallenge-483963733273334c4241-build.zip"
-        },
-        "resuman7b9e0248CreateAuthChallenge": {
-          "deploymentBucketName": "amplify-resuman-dev-143846-deployment",
-          "s3Key": "amplify-builds/resuman7b9e0248CreateAuthChallenge-6f4478412f456874514c-build.zip"
-        },
-        "resuman7b9e0248VerifyAuthChallengeResponse": {
-          "RECAPTCHASECRET": "6Ld4mHUbAAAAANkOx1d5D5mvonXtvcTxoWeBlytx",
-          "deploymentBucketName": "amplify-resuman-dev-143846-deployment",
-          "s3Key": "amplify-builds/resuman7b9e0248VerifyAuthChallengeResponse-41556565336b35726d6b-build.zip"
-        }
-      },
       "auth": {
-        "resuman7b9e0248": {}
+        "resuman2648b965": {}
       }
     }
   }
