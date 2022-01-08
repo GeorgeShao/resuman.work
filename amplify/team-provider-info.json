@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-resuman-dev-143846-authRole",
+      "UnauthRoleArn": "arn:aws:iam::400585575526:role/amplify-resuman-dev-143846-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::400585575526:role/amplify-resuman-dev-143846-authRole",
+      "Region": "ca-central-1",
+      "DeploymentBucketName": "amplify-resuman-dev-143846-deployment",
+      "UnauthRoleName": "amplify-resuman-dev-143846-unauthRole",
+      "StackName": "amplify-resuman-dev-143846",
+      "StackId": "arn:aws:cloudformation:ca-central-1:400585575526:stack/amplify-resuman-dev-143846/127a4d50-dcf7-11eb-b0c1-065535fffe6a",
+      "AmplifyAppId": "de6ideftay8dl"
+    }
+  }
+}
