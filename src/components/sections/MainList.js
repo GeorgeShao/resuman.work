@@ -14,6 +14,7 @@ function MainList(props) {
   const [uploadedPDF, setUploadedPDF] = useState();
   const {isOpen, onOpen, onClose} = useDisclosure();
   const [saveButtonIsDisabled, setSaveButtonIsDisabled] = useState(true);
+  const [selectedPDF, setSelectedPDF] = useState(0);
   const toast = useToast()
 
   useEffect(() => {
@@ -75,10 +76,10 @@ function MainList(props) {
     setFormData(initialFormState);
   }
 
-  async function deletepdf({ id }) {
-    const newPDFArray = PDF.filter(pdf => pdf.id !== id);
+  async function deletepdf() {
+    const newPDFArray = PDF.filter(pdf => pdf.id !== selectedPDF);
     setPDF(newPDFArray);
-    await API.graphql({ query: deleteUploadedFileMutation, variables: { input: { id } }});
+    await API.graphql({ query: deleteUploadedFileMutation, variables: { input: { id: selectedPDF } }});
   }
 
   async function onChange(e) {
@@ -97,7 +98,6 @@ function MainList(props) {
     if (formData.customURL && formData.resumeName && uploadedPDF){
       setSaveButtonIsDisabled(true);
       await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF);
-      await fetchPDF();
       await createUploadedFile();
       onClose();
       toastHelper("Resume saved", "success")
@@ -109,7 +109,8 @@ function MainList(props) {
 
   return (
     <Container textAlign="left" mb={8} pl={8} pr={8} maxW="7xl">
-      <Button onClick={openAddModal}>Add</Button>
+      <Button ml="2" onClick={openAddModal} >Add</Button>
+      <Button ml="2" onClick={deletepdf}>Delete</Button>
       <Modal
         isOpen={isOpen}
         onClose={onClose}
@@ -152,7 +153,7 @@ function MainList(props) {
         <Tbody>
           {
             PDF.map(pdf => (
-              <Tr key={pdf.id || pdf.s3URL} _hover={{bg: "brand.light"}}>
+              <Tr key={pdf.id || pdf.s3URL} _hover={{bg: "brand.light"}} onClick={() => setSelectedPDF(pdf.id)}>
                 <Td>{pdf.resumeName}</Td>
                 <Td>{pdf.customURL}</Td>
                 <Td>
