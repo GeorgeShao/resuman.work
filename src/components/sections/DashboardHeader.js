@@ -4,6 +4,9 @@ import { Box, Flex, Text, Button } from "@chakra-ui/react"
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons"
 import Logo from "../ui/Logo"
 
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
+import { Auth } from '@aws-amplify/auth';
+
 const MenuItems = (props) => {
   const { children, isLast, to = "/", ...rest } = props
   return (
@@ -18,9 +21,15 @@ const MenuItems = (props) => {
   )
 }
 
-const Header = (props) => {
+const DashboardHeader = (props) => {
   const [show, setShow] = React.useState(false)
   const toggleMenu = () => setShow(!show)
+
+  const signOut = () => {
+    Auth.signOut()
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+  }
 
   return (
     <Flex
@@ -71,15 +80,16 @@ const Header = (props) => {
             }}>
             Pricing
           </MenuItems>
-          <MenuItems to="/dashboard" isLast>
+          <MenuItems isLast>
             <Button
+              onClick={signOut}
               size="sm"
               rounded="md"
               _hover={{
                 bg:"brand.light",
               }}
             >
-              Sign In
+              Sign Out
             </Button>
           </MenuItems>
         </Flex>
@@ -88,4 +98,4 @@ const Header = (props) => {
   )
 }
 
-export default Header
+export default DashboardHeader
