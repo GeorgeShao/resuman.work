@@ -1,4 +1,4 @@
-# resuman.work
+# resuman
 Resume management, version control, and sharing simplified.
 
 # Getting Started with Create React App
