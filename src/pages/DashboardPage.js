@@ -8,22 +8,8 @@ import { withAuthenticator } from '@aws-amplify/ui-react'
 import { Auth } from '@aws-amplify/auth';
 import  DashboardLayout from '../components/layouts/DashboardLayout'
 
-const MenuItems = (props) => {
-  const { children, isLast, to = "/", ...rest } = props
-  return (
-    <Text
-      mb={{ base: isLast ? 0 : 8, sm: 0 }}
-      mr={{ base: 0, sm: isLast ? 0 : 8 }}
-      display="block"       
-      {...rest}
-    >
-      <Link to={to}>{children}</Link>
-    </Text>
-  )
-}
-
 const DashboardPage = (props) => {
-	const [userInfo, setUserInfo] = useState(null);
+	const [userInfo, setUserInfo] = useState(undefined);
 
 	useEffect(() => {
 		Auth.currentUserInfo().then((userInfo) => {
