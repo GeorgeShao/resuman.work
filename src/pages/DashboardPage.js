@@ -4,7 +4,7 @@ import '../App.css';
 import Logo from "../components/ui/Logo"
 import { Box, Flex, Text, Button } from "@chakra-ui/react"
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons"
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
+import { withAuthenticator } from '@aws-amplify/ui-react'
 import { Auth } from '@aws-amplify/auth';
 import  DashboardLayout from '../components/layouts/DashboardLayout'
 
@@ -30,15 +30,6 @@ const DashboardPage = (props) => {
 			setUserInfo(userInfo)
 		})
 	}, [])
-	
-	const [show, setShow] = React.useState(false)
-  const toggleMenu = () => setShow(!show)
-
-  const signOut = () => {
-    Auth.signOut()
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
-  }
 
   return (
 		<DashboardLayout />

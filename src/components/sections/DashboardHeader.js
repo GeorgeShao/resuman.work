@@ -4,7 +4,6 @@ import { Box, Flex, Text, Button } from "@chakra-ui/react"
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons"
 import Logo from "../ui/Logo"
 
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import { Auth } from '@aws-amplify/auth';
 
 const MenuItems = (props) => {
