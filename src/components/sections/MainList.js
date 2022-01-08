@@ -56,7 +56,7 @@ function MainList() {
   }
 
   return (
-    <Container textAlign="left" mb={8} pl={8} maxW="7xl">
+    <Container textAlign="left" mb={8} pl={8} pr={8} maxW="7xl">
       {/* <input
         onChange={e => setFormData({ ...formData, 's3URL': e.target.value})}
         placeholder="s3URL"

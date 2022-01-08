@@ -1,10 +1,21 @@
-import React from "react"
+import React, { useEffect, useState } from 'react'
 import { Flex } from "@chakra-ui/react"
 import DashboardHeader from "../sections/DashboardHeader"
 import WelcomeText from "../sections/WelcomeText"
 import MainList from "../sections/MainList"
 
+import { Auth } from '@aws-amplify/auth';
+
 export default function DashboardLayout(props) {
+  const [username, setUsername] = useState("user");
+
+	useEffect(() => {
+		Auth.currentUserInfo().then((userInfo) => {
+			setUsername(userInfo.username)
+      console.log(userInfo)
+		})
+	}, [])
+
   return (
     <Flex
       direction="column"
@@ -14,7 +25,7 @@ export default function DashboardLayout(props) {
       {...props}
     >
       <DashboardHeader />
-      <WelcomeText />
+      <WelcomeText username={username}/>
       <MainList />
       {props.children}
     </Flex>
