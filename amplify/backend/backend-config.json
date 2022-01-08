@@ -24,5 +24,11 @@
         }
       }
     }
+  },
+  "storage": {
+    "pdfstorage": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
   }
 }

@@ -11,7 +11,9 @@ const awsmobile = {
     "aws_appsync_graphqlEndpoint": "https://7mamoyy5crfvnenho52ziqt6hi.appsync-api.ca-central-1.amazonaws.com/graphql",
     "aws_appsync_region": "ca-central-1",
     "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "da2-bnls5azalvberbnvo4uckt57kq"
+    "aws_appsync_apiKey": "da2-bnls5azalvberbnvo4uckt57kq",
+    "aws_user_files_s3_bucket": "resuman-pdfstorage-bucket193938-staging",
+    "aws_user_files_s3_bucket_region": "ca-central-1"
 };
 
 
