@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+:root {
+  --amplify-primary-color: #65c2f0;
+  --amplify-primary-tint: #7bd2fa;
+  --amplify-primary-shade: #39afea;
+}
