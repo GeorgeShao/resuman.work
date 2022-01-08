@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, Table, TableCaption, Thead, Tbody, Tfoot, Tr, Th, Td } from "@chakra-ui/react"
+import { Container, Link, Table, TableCaption, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react"
 import { ExternalLinkIcon } from "@chakra-ui/icons"
 
 import { API, Storage } from 'aws-amplify';
@@ -56,7 +56,7 @@ function MainList() {
   }
 
   return (
-    <div>
+    <Container textAlign="left" mb={8} pl={8} maxW="7xl">
       {/* <input
         onChange={e => setFormData({ ...formData, 's3URL': e.target.value})}
         placeholder="s3URL"
@@ -73,7 +73,7 @@ function MainList() {
       />
       <button onClick={createUploadedFile}>Create pdf</button>
       <Table variant="simple" mb="30">
-        <TableCaption>Imperial to metric conversion factors</TableCaption>
+        <TableCaption>Copyright George Shao 2021</TableCaption>
         <Thead>
           <Tr>
             <Th>s3URL</Th>
@@ -97,7 +97,7 @@ function MainList() {
           }
         </Tbody>
       </Table>
-    </div>
+    </Container>
   )
 }
 

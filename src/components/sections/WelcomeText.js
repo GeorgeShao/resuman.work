@@ -15,7 +15,7 @@ function WelcomeText() {
 
   return (
     <div>
-      <Heading as="h2" size="2xl" textAlign="left"isTruncated mb={8} pl={8}>Welcome {username}</Heading>
+      <Heading as="h2" size="2xl" textAlign="left" isTruncated mb={8} pl={8}>Welcome {username}</Heading>
     </div>
   )
 }
