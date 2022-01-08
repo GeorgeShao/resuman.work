@@ -1,14 +1,14 @@
 import React from "react"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
 
-import Landing from "./pages/Landing"
+import LandingPage from "./pages/LandingPage"
 
 export default function App() {
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/">
-          <Landing />
+          <LandingPage />
         </Route>
       </Switch>
     </BrowserRouter>

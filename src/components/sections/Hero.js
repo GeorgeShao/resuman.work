@@ -40,6 +40,7 @@ export default function Hero({
           size="xl"
           fontWeight="bold"
           textAlign={["center", "center", "left", "left"]}
+          color="brand.main"
         >
           {title}
         </Heading>
@@ -55,12 +56,14 @@ export default function Hero({
         </Heading>
         <Link to={ctaLink}>
           <Button
-            // colorScheme="primary"
             borderRadius="8px"
             py="4"
             px="4"
             lineHeight="1"
             size="md"
+            _hover={{
+              bg:"brand.light",
+            }}
           >
             {ctaText}
           </Button>
@@ -69,7 +72,6 @@ export default function Hero({
           fontSize="xs"
           mt={2}
           textAlign="center"
-          color="primary.800"
           opacity="0.6"
         >
           No credit card required.
@@ -93,8 +95,7 @@ Hero.propTypes = {
 
 Hero.defaultProps = {
   title: "{insert title here}",
-  subtitle:
-    "{insert subtitle here}",
+  subtitle: "{insert subtitle here}",
   image: "https://source.unsplash.com/collection/404339/800x600",
   ctaText: "{button text here}",
   ctaLink: "/"

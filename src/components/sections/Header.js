@@ -32,8 +32,6 @@ const Header = (props) => {
       w="100%"
       mb={8}
       p={8}
-      bg="primary.500"
-      color="primary.700"
       {...props}
     >
       <Flex align="center">
@@ -56,14 +54,36 @@ const Header = (props) => {
           direction={["column", "row", "row", "row"]}
           pt={[4, 4, 0, 0]}
         >
-          <MenuItems to="/">Home</MenuItems>
-          <MenuItems to="/how">How It works </MenuItems>
-          <MenuItems to="/faetures">Features </MenuItems>
-          <MenuItems to="/pricing">Pricing </MenuItems>
+          <MenuItems to="/"
+            _hover={{
+              color:"brand.dark",
+            }}>
+            Home
+          </MenuItems><MenuItems to="/how"
+            _hover={{
+              color:"brand.dark",
+            }}>
+            How It Works
+          </MenuItems>
+          <MenuItems to="/features"
+            _hover={{
+              color:"brand.dark",
+            }}>
+            Features
+          </MenuItems>
+          <MenuItems to="/pricing"
+            _hover={{
+              color:"brand.dark",
+            }}>
+            Pricing
+          </MenuItems>
           <MenuItems to="/signup" isLast>
             <Button
               size="sm"
               rounded="md"
+              _hover={{
+                bg:"brand.light",
+              }}
             >
               Create Account
             </Button>
