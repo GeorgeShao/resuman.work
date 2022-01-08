@@ -1,5 +1,5 @@
 # resuman
-Resume management, version control, and sharing simplified.
+Resume management simplified.
 
 # Getting Started with Create React App
 
