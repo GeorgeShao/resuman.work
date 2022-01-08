@@ -7,24 +7,24 @@ import { createUploadedFile as createUploadedFileMutation, deleteUploadedFile as
 const initialFormState = { s3URL: '', customURL: '' }
 
 function MainList() {
-  const [notes, setNotes] = useState([]);
+  const [PDF, setPDF] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
 
   useEffect(() => {
-    fetchNotes();
+    fetchPDF();
   }, []);
 
-  async function fetchNotes() {
+  async function fetchPDF() {
     const apiData = await API.graphql({ query: listUploadedFiles });
-    const notesFromAPI = apiData.data.listUploadedFiles.items;
-    await Promise.all(notesFromAPI.map(async note => {
-      if (note.s3URL) {
-        const s3URL = await Storage.get(note.s3URL);
-        note.s3URL = s3URL;
+    const PDFFromAPI = apiData.data.listUploadedFiles.items;
+    await Promise.all(PDFFromAPI.map(async pdf => {
+      if (pdf.s3URL) {
+        const s3URL = await Storage.get(pdf.s3URL);
+        pdf.s3URL = s3URL;
       }
-      return note;
+      return pdf;
     }))
-    setNotes(apiData.data.listUploadedFiles.items);
+    setPDF(apiData.data.listUploadedFiles.items);
   }
 
   async function createUploadedFile() {
@@ -34,14 +34,14 @@ function MainList() {
     await API.graphql({ query: createUploadedFileMutation, variables: { input: formData } });
     const s3URL = await Storage.get(formData.s3URL);
     formData.s3URL = s3URL;
-    setNotes([ ...notes, formData ]);
+    setPDF([ ...PDF, formData ]);
     setFormData(initialFormState);
     console.log("done")
   }
 
-  async function deleteNote({ id }) {
-    const newNotesArray = notes.filter(note => note.id !== id);
-    setNotes(newNotesArray);
+  async function deletepdf({ id }) {
+    const newPDFArray = PDF.filter(pdf => pdf.id !== id);
+    setPDF(newPDFArray);
     await API.graphql({ query: deleteUploadedFileMutation, variables: { input: { id } }});
   }
 
@@ -50,7 +50,7 @@ function MainList() {
     const file = e.target.files[0];
     setFormData({ ...formData, s3URL: file.name });
     await Storage.put(file.name, file);
-    fetchNotes();
+    fetchPDF();
   }
 
   return (
@@ -69,16 +69,16 @@ function MainList() {
         type="file"
         onChange={onChange}
       />
-      <button onClick={createUploadedFile}>Create Note</button>
+      <button onClick={createUploadedFile}>Create pdf</button>
       <div style={{marginBottom: 30}}>
         {
-          notes.map(note => (
-            <div key={note.id || note.s3URL}>
-              <h2>{note.s3URL}</h2>
-              <p>{note.customURL}</p>
-              <button onClick={() => deleteNote(note)}>Delete note</button>
+          PDF.map(pdf => (
+            <div key={pdf.id || pdf.s3URL}>
+              <h2>{pdf.s3URL}</h2>
+              <p>{pdf.customURL}</p>
+              <button onClick={() => deletepdf(pdf)}>Delete pdf</button>
               {
-                note.s3URL && <img src={note.s3URL} style={{width: 400}} />
+                pdf.s3URL && <img src={pdf.s3URL} style={{width: 400}} />
               }
             </div>
           ))
