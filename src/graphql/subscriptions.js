@@ -6,6 +6,7 @@ export const onCreateUploadedFile = /* GraphQL */ `
     onCreateUploadedFile {
       id
       username
+      resumeName
       s3URL
       customURL
       createdAt
@@ -18,6 +19,7 @@ export const onUpdateUploadedFile = /* GraphQL */ `
     onUpdateUploadedFile {
       id
       username
+      resumeName
       s3URL
       customURL
       createdAt
@@ -30,6 +32,7 @@ export const onDeleteUploadedFile = /* GraphQL */ `
     onDeleteUploadedFile {
       id
       username
+      resumeName
       s3URL
       customURL
       createdAt

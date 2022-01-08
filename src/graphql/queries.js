@@ -6,6 +6,7 @@ export const getUploadedFile = /* GraphQL */ `
     getUploadedFile(id: $id) {
       id
       username
+      resumeName
       s3URL
       customURL
       createdAt
@@ -23,6 +24,7 @@ export const listUploadedFiles = /* GraphQL */ `
       items {
         id
         username
+        resumeName
         s3URL
         customURL
         createdAt
@@ -52,6 +54,7 @@ export const filesByUsername = /* GraphQL */ `
       items {
         id
         username
+        resumeName
         s3URL
         customURL
         createdAt

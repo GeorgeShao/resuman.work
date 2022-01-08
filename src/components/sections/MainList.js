@@ -1,20 +1,33 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Link, Table, TableCaption, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react"
+import { Container, Link, Table, TableCaption, Thead, Tbody, Tr, Th, Td, useDisclosure, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, Input, ModalFooter, useToast } from "@chakra-ui/react"
 import { ExternalLinkIcon } from "@chakra-ui/icons"
 
 import { API, Storage, graphqlOperation } from 'aws-amplify';
 import { filesByUsername } from '../../graphql/queries';
 import { createUploadedFile as createUploadedFileMutation, deleteUploadedFile as deleteUploadedFileMutation } from '../../graphql/mutations';
 
-const initialFormState = { s3URL: '', customURL: '', username: '' }
+const initialFormState = { resumeName: '', s3URL: '', customURL: '', username: '' }
 
 function MainList(props) {
   const [PDF, setPDF] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
+  const [uploadedPDF, setUploadedPDF] = useState();
+  const {isOpen, onOpen, onClose} = useDisclosure()
+  const toast = useToast()
 
   useEffect(() => {
     fetchPDF();
   }, [props.username]);
+
+  function toastHelper(title, status, description){
+    toast({
+      title: title,
+      description: description,
+      status: status,
+      duration: 3000,
+      isClosable: true,
+    })
+  }
 
   async function fetchPDF() {
     if (props.username){
@@ -38,8 +51,9 @@ function MainList(props) {
   }
 
   async function createUploadedFile() {
-    if (!formData.s3URL || !formData.customURL) return;
+    if (!formData.customURL || !formData.resumeName || !uploadedPDF) return;
     formData.username = props.username
+    formData.s3URL = props.username + "/" + uploadedPDF.name
     await API.graphql({ query: createUploadedFileMutation, variables: { input: formData } });
     const s3URL = await Storage.get(formData.s3URL);
     formData.s3URL = s3URL;
@@ -54,48 +68,82 @@ function MainList(props) {
   }
 
   async function onChange(e) {
-    if (!e.target.files[0]) return
-    const file = e.target.files[0];
-    setFormData({ ...formData, s3URL: props.username + "/" + file.name });
-    await Storage.put(props.username + "/" + file.name, file);
-    fetchPDF();
+    if (!e.target.files[0]) return;
+    const file = e.target.files[0]
+    setUploadedPDF(file)
+  }
+
+  function openAddModal(){
+    setFormData(initialFormState)
+    setUploadedPDF()
+    onOpen()
+  }
+
+  async function closeAddModal(){
+    if (formData.customURL && formData.resumeName && uploadedPDF){
+      await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF);
+      await fetchPDF();
+      await createUploadedFile();
+      onClose();
+      toastHelper("Resume saved", "success")
+      fetchPDF();
+    } else {
+      toastHelper("Resume not saved", "error", "Empty fields present")
+    }
   }
 
   return (
     <Container textAlign="left" mb={8} pl={8} pr={8} maxW="7xl">
-      {/* <input
-        onChange={e => setFormData({ ...formData, 's3URL': e.target.value})}
-        placeholder="s3URL"
-        value={formData.s3URL}
-      /> */}
-      <input
-        onChange={e => setFormData({ ...formData, 'customURL': e.target.value})}
-        placeholder="customURL"
-        value={formData.customURL}
-      />
-      <input
-        type="file"
-        onChange={onChange}
-      />
-      <button onClick={createUploadedFile}>Create pdf</button>
+      <Button onClick={openAddModal}>Add</Button>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add a new resume</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Resume name</FormLabel>
+              <Input placeholder="John Smith Software Dev Resume" onChange={e => setFormData({ ...formData, 'resumeName': e.target.value})} />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Custom link - resuman.work/[your_custom_link_here]</FormLabel>
+              <Input placeholder="johnsmith_software_resume" onChange={e => setFormData({ ...formData, 'customURL': e.target.value})} />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Upload a file</FormLabel>
+              <Input type="file" onChange={onChange} />
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button onClick={closeAddModal} bg="brand.light" mr={3}>
+              Save
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Table variant="simple" mb="30">
         <Thead>
           <Tr>
-            <Th>s3URL</Th>
-            <Th>customURL</Th>
-            <Th>link</Th>
+            <Th>NAME</Th>
+            <Th>CUSTOM LINK</Th>
+            <Th>FILE</Th>
           </Tr>
         </Thead>
         <Tbody>
           {
             PDF.map(pdf => (
               <Tr key={pdf.id || pdf.s3URL} _hover={{bg: "brand.light"}}>
-                <Td>test123</Td>
+                <Td>{pdf.resumeName}</Td>
                 <Td>{pdf.customURL}</Td>
                 <Td>
-                <Link href={pdf.s3URL} isExternal>
-                  View <ExternalLinkIcon mx="2px" />
-                </Link>
+                  <Link href={pdf.s3URL} isExternal>
+                    View <ExternalLinkIcon mx="2px" />
+                  </Link>
                 </Td>
               </Tr>
             ))

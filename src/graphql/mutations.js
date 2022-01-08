@@ -9,6 +9,7 @@ export const createUploadedFile = /* GraphQL */ `
     createUploadedFile(input: $input, condition: $condition) {
       id
       username
+      resumeName
       s3URL
       customURL
       createdAt
@@ -24,6 +25,7 @@ export const updateUploadedFile = /* GraphQL */ `
     updateUploadedFile(input: $input, condition: $condition) {
       id
       username
+      resumeName
       s3URL
       customURL
       createdAt
@@ -39,6 +41,7 @@ export const deleteUploadedFile = /* GraphQL */ `
     deleteUploadedFile(input: $input, condition: $condition) {
       id
       username
+      resumeName
       s3URL
       customURL
       createdAt
