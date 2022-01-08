@@ -7,7 +7,6 @@ export const getUploadedFile = /* GraphQL */ `
       id
       s3URL
       customURL
-      description
       createdAt
       updatedAt
     }
@@ -24,7 +23,6 @@ export const listUploadedFiles = /* GraphQL */ `
         id
         s3URL
         customURL
-        description
         createdAt
         updatedAt
       }

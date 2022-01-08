@@ -10,7 +10,6 @@ export const createUploadedFile = /* GraphQL */ `
       id
       s3URL
       customURL
-      description
       createdAt
       updatedAt
     }
@@ -25,7 +24,6 @@ export const updateUploadedFile = /* GraphQL */ `
       id
       s3URL
       customURL
-      description
       createdAt
       updatedAt
     }
@@ -40,7 +38,6 @@ export const deleteUploadedFile = /* GraphQL */ `
       id
       s3URL
       customURL
-      description
       createdAt
       updatedAt
     }

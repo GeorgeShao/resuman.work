@@ -2,7 +2,6 @@ type UploadedFile @model {
   id: ID!
   s3URL: String!
   customURL: String!
-  description: String!
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }
