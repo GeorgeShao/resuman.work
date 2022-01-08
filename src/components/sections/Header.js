@@ -76,7 +76,7 @@ const Header = (props) => {
             }}>
             Pricing
           </MenuItems>
-          <MenuItems to="/signup" isLast>
+          <MenuItems to="/dashboard" isLast>
             <Button
               size="sm"
               rounded="md"

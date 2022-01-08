@@ -10,6 +10,26 @@
       "StackName": "amplify-resuman-dev-143846",
       "StackId": "arn:aws:cloudformation:ca-central-1:400585575526:stack/amplify-resuman-dev-143846/127a4d50-dcf7-11eb-b0c1-065535fffe6a",
       "AmplifyAppId": "de6ideftay8dl"
+    },
+    "categories": {
+      "function": {
+        "resuman7b9e0248DefineAuthChallenge": {
+          "deploymentBucketName": "amplify-resuman-dev-143846-deployment",
+          "s3Key": "amplify-builds/resuman7b9e0248DefineAuthChallenge-483963733273334c4241-build.zip"
+        },
+        "resuman7b9e0248CreateAuthChallenge": {
+          "deploymentBucketName": "amplify-resuman-dev-143846-deployment",
+          "s3Key": "amplify-builds/resuman7b9e0248CreateAuthChallenge-6f4478412f456874514c-build.zip"
+        },
+        "resuman7b9e0248VerifyAuthChallengeResponse": {
+          "RECAPTCHASECRET": "6Ld4mHUbAAAAANkOx1d5D5mvonXtvcTxoWeBlytx",
+          "deploymentBucketName": "amplify-resuman-dev-143846-deployment",
+          "s3Key": "amplify-builds/resuman7b9e0248VerifyAuthChallengeResponse-41556565336b35726d6b-build.zip"
+        }
+      },
+      "auth": {
+        "resuman7b9e0248": {}
+      }
     }
   }
 }

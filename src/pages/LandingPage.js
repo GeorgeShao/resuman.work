@@ -11,7 +11,7 @@ export default function LandingPage() {
         subtitle="Powerful version control and sharing features at your fingertips."
         image="https://source.unsplash.com/collection/404339/800x600"
         ctaText="Get started for free now!"
-        ctaLink="/signup"
+        ctaLink="/dashboard"
       />
     </LandingLayout>
   );
