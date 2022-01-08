@@ -12,12 +12,26 @@ function MainList(props) {
   const [PDF, setPDF] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
   const [uploadedPDF, setUploadedPDF] = useState();
-  const {isOpen, onOpen, onClose} = useDisclosure()
+  const {isOpen, onOpen, onClose} = useDisclosure();
+  const [saveButtonIsDisabled, setSaveButtonIsDisabled] = useState(true);
   const toast = useToast()
 
   useEffect(() => {
     fetchPDF();
   }, [props.username]);
+
+  useEffect(() => {
+    try {
+      if (formData.customURL && formData.resumeName && uploadedPDF){
+        setSaveButtonIsDisabled(false);
+      } else {
+        setSaveButtonIsDisabled(true);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+      
+  }, [formData.customURL, formData.resumeName, uploadedPDF]);
 
   function toastHelper(title, status, description){
     toast({
@@ -81,6 +95,7 @@ function MainList(props) {
 
   async function closeAddModal(){
     if (formData.customURL && formData.resumeName && uploadedPDF){
+      setSaveButtonIsDisabled(true);
       await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF);
       await fetchPDF();
       await createUploadedFile();
@@ -119,7 +134,7 @@ function MainList(props) {
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={closeAddModal} bg="brand.light" mr={3}>
+            <Button onClick={closeAddModal} isDisabled={saveButtonIsDisabled} bg="brand.light" mr={3}>
               Save
             </Button>
             <Button onClick={onClose}>Cancel</Button>
