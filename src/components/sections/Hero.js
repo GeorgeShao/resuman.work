@@ -8,7 +8,7 @@ import {
   Image,
   Heading,
   Stack,
-  Text
+  Text,
 } from "@chakra-ui/react";
 
 export default function Hero({
@@ -62,18 +62,13 @@ export default function Hero({
             lineHeight="1"
             size="md"
             _hover={{
-              bg:"brand.light",
+              bg: "brand.light",
             }}
           >
             {ctaText}
           </Button>
         </Link>
-        <Text
-          fontSize="xs"
-          mt={2}
-          textAlign="center"
-          opacity="0.6"
-        >
+        <Text fontSize="xs" mt={2} textAlign="center" opacity="0.6">
           No credit card required.
         </Text>
       </Stack>
@@ -90,7 +85,7 @@ Hero.propTypes = {
   subtitle: PropTypes.string,
   image: PropTypes.string,
   ctaText: PropTypes.string,
-  ctaLink: PropTypes.string
+  ctaLink: PropTypes.string,
 };
 
 Hero.defaultProps = {
@@ -98,5 +93,5 @@ Hero.defaultProps = {
   subtitle: "{insert subtitle here}",
   image: "https://source.unsplash.com/collection/404339/800x600",
   ctaText: "{button text here}",
-  ctaLink: "/"
+  ctaLink: "/",
 };

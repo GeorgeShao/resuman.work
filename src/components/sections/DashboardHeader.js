@@ -1,34 +1,34 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import { Box, Flex, Text, Button } from "@chakra-ui/react"
-import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons"
-import Logo from "../ui/Logo"
+import React from "react";
+import { Link } from "react-router-dom";
+import { Box, Flex, Text, Button } from "@chakra-ui/react";
+import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
+import Logo from "../ui/Logo";
 
-import { Auth } from '@aws-amplify/auth';
+import { Auth } from "@aws-amplify/auth";
 
 const MenuItems = (props) => {
-  const { children, isLast, to = "/", ...rest } = props
+  const { children, isLast, to = "/", ...rest } = props;
   return (
     <Text
       mb={{ base: isLast ? 0 : 8, sm: 0 }}
       mr={{ base: 0, sm: isLast ? 0 : 8 }}
-      display="block"       
+      display="block"
       {...rest}
     >
       <Link to={to}>{children}</Link>
     </Text>
-  )
-}
+  );
+};
 
 const DashboardHeader = (props) => {
-  const [show, setShow] = React.useState(false)
-  const toggleMenu = () => setShow(!show)
+  const [show, setShow] = React.useState(false);
+  const toggleMenu = () => setShow(!show);
 
   const signOut = () => {
     Auth.signOut()
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
-  }
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <Flex
@@ -42,9 +42,7 @@ const DashboardHeader = (props) => {
       {...props}
     >
       <Flex align="center">
-        <Logo
-          w="100px"
-        />
+        <Logo w="100px" />
       </Flex>
 
       <Box display={{ base: "block", md: "none" }} onClick={toggleMenu}>
@@ -61,22 +59,28 @@ const DashboardHeader = (props) => {
           direction={["column", "row", "row", "row"]}
           pt={[4, 4, 0, 0]}
         >
-          <MenuItems to="/"
+          <MenuItems
+            to="/"
             _hover={{
-              color:"brand.dark",
-            }}>
+              color: "brand.dark",
+            }}
+          >
             Home
           </MenuItems>
-          <MenuItems to="/features"
+          <MenuItems
+            to="/features"
             _hover={{
-              color:"brand.dark",
-            }}>
+              color: "brand.dark",
+            }}
+          >
             Features
           </MenuItems>
-          <MenuItems to="/pricing"
+          <MenuItems
+            to="/pricing"
             _hover={{
-              color:"brand.dark",
-            }}>
+              color: "brand.dark",
+            }}
+          >
             Pricing
           </MenuItems>
           <MenuItems isLast>
@@ -85,7 +89,7 @@ const DashboardHeader = (props) => {
               size="sm"
               rounded="md"
               _hover={{
-                bg:"brand.light",
+                bg: "brand.light",
               }}
             >
               Sign Out
@@ -94,7 +98,7 @@ const DashboardHeader = (props) => {
         </Flex>
       </Box>
     </Flex>
-  )
-}
+  );
+};
 
-export default DashboardHeader
+export default DashboardHeader;

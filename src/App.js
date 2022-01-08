@@ -1,8 +1,8 @@
-import React from "react"
-import { BrowserRouter, Switch, Route } from "react-router-dom"
+import React from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-import LandingPage from "./pages/LandingPage"
-import DashboardPage from "./pages/DashboardPage"
+import LandingPage from "./pages/LandingPage";
+import DashboardPage from "./pages/DashboardPage";
 
 export default function App() {
   return (
@@ -16,5 +16,5 @@ export default function App() {
         </Route>
       </Switch>
     </BrowserRouter>
-  )
+  );
 }

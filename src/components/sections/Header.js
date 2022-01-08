@@ -1,26 +1,26 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import { Box, Flex, Text, Button } from "@chakra-ui/react"
-import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons"
-import Logo from "../ui/Logo"
+import React from "react";
+import { Link } from "react-router-dom";
+import { Box, Flex, Text, Button } from "@chakra-ui/react";
+import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
+import Logo from "../ui/Logo";
 
 const MenuItems = (props) => {
-  const { children, isLast, to = "/", ...rest } = props
+  const { children, isLast, to = "/", ...rest } = props;
   return (
     <Text
       mb={{ base: isLast ? 0 : 8, sm: 0 }}
       mr={{ base: 0, sm: isLast ? 0 : 8 }}
-      display="block"       
+      display="block"
       {...rest}
     >
       <Link to={to}>{children}</Link>
     </Text>
-  )
-}
+  );
+};
 
 const Header = (props) => {
-  const [show, setShow] = React.useState(false)
-  const toggleMenu = () => setShow(!show)
+  const [show, setShow] = React.useState(false);
+  const toggleMenu = () => setShow(!show);
 
   return (
     <Flex
@@ -34,9 +34,7 @@ const Header = (props) => {
       {...props}
     >
       <Flex align="center">
-        <Logo
-          w="100px"
-        />
+        <Logo w="100px" />
       </Flex>
 
       <Box display={{ base: "block", md: "none" }} onClick={toggleMenu}>
@@ -53,22 +51,28 @@ const Header = (props) => {
           direction={["column", "row", "row", "row"]}
           pt={[4, 4, 0, 0]}
         >
-          <MenuItems to="/"
+          <MenuItems
+            to="/"
             _hover={{
-              color:"brand.dark",
-            }}>
+              color: "brand.dark",
+            }}
+          >
             Home
           </MenuItems>
-          <MenuItems to="/features"
+          <MenuItems
+            to="/features"
             _hover={{
-              color:"brand.dark",
-            }}>
+              color: "brand.dark",
+            }}
+          >
             Features
           </MenuItems>
-          <MenuItems to="/pricing"
+          <MenuItems
+            to="/pricing"
             _hover={{
-              color:"brand.dark",
-            }}>
+              color: "brand.dark",
+            }}
+          >
             Pricing
           </MenuItems>
           <MenuItems to="/dashboard" isLast>
@@ -76,7 +80,7 @@ const Header = (props) => {
               size="sm"
               rounded="md"
               _hover={{
-                bg:"brand.light",
+                bg: "brand.light",
               }}
             >
               Sign In
@@ -85,7 +89,7 @@ const Header = (props) => {
         </Flex>
       </Box>
     </Flex>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

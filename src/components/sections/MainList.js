@@ -180,11 +180,13 @@ function MainList(props) {
 
   async function closeAddModal() {
     await setSaveButtonIsDisabled(true);
-    let customURLAlreadyExists = false
+    let customURLAlreadyExists = false;
     let filter = {
-      customURL: {eq: formData.customURL}
+      customURL: { eq: formData.customURL },
     };
-    let fetched_data = await API.graphql(graphqlOperation(listUploadedFiles, {filter:filter}));
+    let fetched_data = await API.graphql(
+      graphqlOperation(listUploadedFiles, { filter: filter })
+    );
     try {
       let fetched_customURL = fetched_data.data.listUploadedFiles.items[0];
       customURLAlreadyExists = true;
@@ -226,14 +228,18 @@ function MainList(props) {
 
   async function closeEditModal() {
     await setSaveButtonIsDisabled(true);
-    let customURLAlreadyExists = false
+    let customURLAlreadyExists = false;
     let filter = {
-      customURL: {eq: formData.customURL}
+      customURL: { eq: formData.customURL },
     };
-    let fetched_data = await API.graphql(graphqlOperation(listUploadedFiles, {filter:filter}));
+    let fetched_data = await API.graphql(
+      graphqlOperation(listUploadedFiles, { filter: filter })
+    );
     try {
       let fetched_customURL = fetched_data.data.listUploadedFiles.items;
-      let fetched_relevant_data = fetched_customURL.filter((pdf) => pdf["id"] !== selectedPDF);
+      let fetched_relevant_data = fetched_customURL.filter(
+        (pdf) => pdf["id"] !== selectedPDF
+      );
       if (fetched_relevant_data.length !== 0) {
         customURLAlreadyExists = true;
       }
