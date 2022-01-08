@@ -42,3 +42,7 @@
   --amplify-primary-tint: #7bd2fa;
   --amplify-primary-shade: #39afea;
 }
+
+.mainlistitem-active {
+  background-color: #7bd2fa;
+}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import '../../App.css';
 import { Container, Link, Table, TableCaption, Thead, Tbody, Tr, Th, Td, useDisclosure, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, Input, ModalFooter, useToast } from "@chakra-ui/react"
 import { ExternalLinkIcon } from "@chakra-ui/icons"
 
@@ -15,6 +16,7 @@ function MainList(props) {
   const {isOpen, onOpen, onClose} = useDisclosure();
   const [saveButtonIsDisabled, setSaveButtonIsDisabled] = useState(true);
   const [selectedPDF, setSelectedPDF] = useState(0);
+
   const toast = useToast()
 
   useEffect(() => {
@@ -109,8 +111,8 @@ function MainList(props) {
 
   return (
     <Container textAlign="left" mb={8} pl={8} pr={8} maxW="7xl">
-      <Button ml="2" onClick={openAddModal} >Add</Button>
-      <Button ml="2" onClick={deletepdf}>Delete</Button>
+      <Button ml="2" onClick={openAddModal} _hover={{bg:"brand.light"}}>Add</Button>
+      <Button ml="2" onClick={deletepdf} _hover={{bg:"brand.light"}}>Delete</Button>
       <Modal
         isOpen={isOpen}
         onClose={onClose}
@@ -153,7 +155,7 @@ function MainList(props) {
         <Tbody>
           {
             PDF.map(pdf => (
-              <Tr key={pdf.id || pdf.s3URL} _hover={{bg: "brand.light"}} onClick={() => setSelectedPDF(pdf.id)}>
+              <Tr key={pdf.id || pdf.s3URL} className={pdf.id === selectedPDF ? "mainlistitem-active" : "mainlistitem-inactive"} onClick={() => setSelectedPDF(pdf.id)}>
                 <Td>{pdf.resumeName}</Td>
                 <Td>{pdf.customURL}</Td>
                 <Td>
