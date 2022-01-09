@@ -67,22 +67,6 @@ const DashboardHeader = (props) => {
           >
             Home
           </MenuItems>
-          <MenuItems
-            to="/features"
-            _hover={{
-              color: "brand.dark",
-            }}
-          >
-            Features
-          </MenuItems>
-          <MenuItems
-            to="/pricing"
-            _hover={{
-              color: "brand.dark",
-            }}
-          >
-            Pricing
-          </MenuItems>
           <MenuItems isLast>
             <Button
               onClick={signOut}

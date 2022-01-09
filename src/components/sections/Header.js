@@ -59,7 +59,7 @@ const Header = (props) => {
           >
             Home
           </MenuItems>
-          <MenuItems
+          {/* <MenuItems
             to="/features"
             _hover={{
               color: "brand.dark",
@@ -74,7 +74,7 @@ const Header = (props) => {
             }}
           >
             Pricing
-          </MenuItems>
+          </MenuItems> */}
           <MenuItems to="/dashboard" isLast>
             <Button
               size="sm"
