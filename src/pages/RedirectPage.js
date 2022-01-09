@@ -20,11 +20,13 @@ function RedirectPage(props) {
       var fetched_data = await API.graphql(
         graphqlOperation(listUploadedFiles, { filter: filter })
       );
+
       try {
         const fetched_s3URL =
           fetched_data.data.listUploadedFiles.items[0]["s3URL"];
-        const s3URL = await Storage.get(fetched_s3URL);
-        window.location.href = s3URL;
+        window.location.href =
+          "https://resuman-pdfstorage-bucket193938-staging.s3.ca-central-1.amazonaws.com/public/" +
+          fetched_s3URL;
         await toast({
           title: "Resume loaded successfully",
           description: `Loaded resume ${shortlink}`,
