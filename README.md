@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="./src/assets">
-    <img src="./src/assets/bigpicture.png" alt="Logo">
+    <img src="https://github.com/GeorgeShao/resuman.work/tree/main/src/assets/bigpicture.png" alt="Logo">
   </a>
 
 <h3 align="center">Resuman.work</h3>
@@ -41,7 +41,7 @@
 
 ## About The Project
 <a href="./src/assets">
-    <img src="./src/assets/screenshot.png" alt="Screenshot">
+    <img src="https://github.com/GeorgeShao/resuman.work/tree/main/src/assets/screenshot.png" alt="Screenshot">
   </a>
 <br>
 Resuman.work is a resume management system which allows job applicants to easily store, share and manage multiple resumes.
@@ -68,7 +68,7 @@ Resuman.work is a resume management system which allows job applicants to easily
 
 ## Usage
  <a href="./src/assets">
-    <img src="./src/assets/usage.png" alt="Logo">
+    <img src="https://github.com/GeorgeShao/resuman.work/tree/main/src/assets/usage.png" alt="Logo">
   </a>
   <br>
 After creating an account, users can store their resumes to Resuman.work via the dashboard. Uploaded Resumes can be easily shared through a custom link created by the user. Furthermore, users can manage previously uploaded resumes anytime by updating links, adding new resumes or deleting current resumes.
