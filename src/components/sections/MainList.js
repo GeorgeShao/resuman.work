@@ -212,6 +212,18 @@ function MainList(props) {
       return;
     }
 
+    if (uploadedPDF.type !== "application/pdf") {
+      toastHelper("Invalid file type", "error", "Resumes must be a PDF");
+      await setSaveButtonIsDisabled(false);
+      return;
+    }
+
+    if (uploadedPDF.size > 250000) {
+      toastHelper("File too large", "error", "Resumes must be under 250KB in size");
+      await setSaveButtonIsDisabled(false);
+      return;
+    }
+
     await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF, {
       contentType: 'application/pdf',
       contentDisposition: 'inline',
@@ -276,6 +288,16 @@ function MainList(props) {
       return;
     }
     if (uploadedPDF) {
+      if (uploadedPDF.type !== "application/pdf") {
+        toastHelper("Invalid file type", "error", "Resumes must be a PDF");
+        await setSaveButtonIsDisabled(false);
+        return;
+      }
+      if (uploadedPDF.size > 250000) {
+        toastHelper("File too large", "error", "Resumes must be under 250KB in size");
+        await setSaveButtonIsDisabled(false);
+        return;
+      }
       await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF, {
         contentType: 'application/pdf',
         contentDisposition: 'inline',
