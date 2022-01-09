@@ -122,7 +122,6 @@ function MainList(props) {
         ).then((response) => {
           if (PDFFromAPI) {
             setPDF(PDFFromAPI);
-            console.log("PDFFromAPI:", ...PDFFromAPI);
           }
         });
       });

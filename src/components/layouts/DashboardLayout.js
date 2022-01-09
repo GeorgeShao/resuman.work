@@ -12,7 +12,6 @@ export default function DashboardLayout(props) {
   useEffect(() => {
     Auth.currentUserInfo().then((userInfo) => {
       setUsername(userInfo.username);
-      console.log("userInfo:", userInfo);
     });
   }, []);
 
