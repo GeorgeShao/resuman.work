@@ -2,6 +2,7 @@ import React from "react";
 
 import Hero from "../components/sections/Hero";
 import LandingLayout from "../components/layouts/LandingLayout";
+import leaves from "../assets/leaves.jpg"
 
 export default function LandingPage() {
   return (
@@ -9,7 +10,7 @@ export default function LandingPage() {
       <Hero
         title="Resume management simplified."
         subtitle="Powerful version control and sharing features at your fingertips."
-        image="https://source.unsplash.com/collection/404339/800x600"
+        image={leaves}
         ctaText="Get started for free now!"
         ctaLink="/dashboard"
       />
