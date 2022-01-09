@@ -181,6 +181,13 @@ function MainList(props) {
   async function closeAddModal() {
     formData.customURL = formData.customURL.trim().toLowerCase();
     await setSaveButtonIsDisabled(true);
+
+    if (formData.customURL.length < 7) {
+      toastHelper("Custom link too short", "error", "Custom links must be 7+ characters");
+      await setSaveButtonIsDisabled(false);
+      return;
+    }
+
     let customURLAlreadyExists = false;
     let filter = {
       customURL: { eq: formData.customURL },
@@ -237,6 +244,13 @@ function MainList(props) {
   async function closeEditModal() {
     formData.customURL = formData.customURL.trim().toLowerCase();
     await setSaveButtonIsDisabled(true);
+
+    if (formData.customURL.length < 7) {
+      toastHelper("Custom link too short", "error", "Custom links must be 7+ characters");
+      await setSaveButtonIsDisabled(false);
+      return;
+    }
+
     let customURLAlreadyExists = false;
     let filter = {
       customURL: { eq: formData.customURL },
@@ -392,7 +406,7 @@ function MainList(props) {
               onClick={() => setSelectedPDF(pdf.id)}
             >
               <Td>{pdf.resumeName}</Td>
-              <Td>{pdf.customURL}</Td>
+              <Td>resuman.work/{pdf.customURL}</Td>
               <Td>
                 <Link href={pdf.s3URL} isExternal>
                   View <ExternalLinkIcon mx="2px" />
