@@ -40,6 +40,8 @@ import {
   deleteUploadedFile as deleteUploadedFileMutation,
 } from "../../graphql/mutations";
 
+import getDateTime from "../../utils/getDateTime"
+
 const initialFormState = {
   resumeName: "",
   s3URL: "",
@@ -65,6 +67,8 @@ function MainList(props) {
   const [removeButtonIsDisabled, setRemoveButtonIsDisabled] = useState(true);
 
   const toast = useToast();
+
+  const [dateTime, setDateTime] = useState(getDateTime());
 
   useEffect(() => {
     fetchPDF();
@@ -130,7 +134,7 @@ function MainList(props) {
 
   async function createUploadedFile() {
     formData.username = props.username;
-    formData.s3URL = props.username + "/" + uploadedPDF.name;
+    formData.s3URL = props.username + "/" + uploadedPDF.name.replace(/\.[^/.]+$/, "") + dateTime + ".pdf";
     await API.graphql({
       query: createUploadedFileMutation,
       variables: { input: formData },
@@ -143,7 +147,7 @@ function MainList(props) {
     formData.username = props.username;
     formData.id = selectedPDF;
     if (uploadedPDF) {
-      formData.s3URL = props.username + "/" + uploadedPDF.name;
+      formData.s3URL = props.username + "/" + uploadedPDF.name.replace(/\.[^/.]+$/, "") + dateTime + ".pdf";
     } else {
       formData.s3URL = undefined;
     }
@@ -180,6 +184,7 @@ function MainList(props) {
   async function closeAddModal() {
     formData.customURL = formData.customURL.trim().toLowerCase();
     await setSaveButtonIsDisabled(true);
+    await setDateTime(getDateTime());
 
     if (formData.customURL.length < 7) {
       toastHelper("Custom link too short", "error", "Custom links must be 7+ characters");
@@ -223,7 +228,7 @@ function MainList(props) {
       return;
     }
 
-    await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF, {
+    await Storage.put(props.username + "/" + uploadedPDF.name.replace(/\.[^/.]+$/, "") + dateTime + ".pdf", uploadedPDF, {
       contentType: 'application/pdf',
       contentDisposition: 'inline',
     });
@@ -255,6 +260,7 @@ function MainList(props) {
   async function closeEditModal() {
     formData.customURL = formData.customURL.trim().toLowerCase();
     await setSaveButtonIsDisabled(true);
+    await setDateTime(getDateTime());
 
     if (formData.customURL.length < 7) {
       toastHelper("Custom link too short", "error", "Custom links must be 7+ characters");
@@ -297,7 +303,8 @@ function MainList(props) {
         await setSaveButtonIsDisabled(false);
         return;
       }
-      await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF, {
+
+      await Storage.put(props.username + "/" + uploadedPDF.name.replace(/\.[^/.]+$/, "") + dateTime + ".pdf", uploadedPDF, {
         contentType: 'application/pdf',
         contentDisposition: 'inline',
       });
