@@ -205,7 +205,10 @@ function MainList(props) {
       return;
     }
 
-    await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF);
+    await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF, {
+      contentType: 'application/pdf',
+      contentDisposition: 'inline',
+    });
     await createUploadedFile();
     onClose();
     toastHelper("Resume saved", "success");
@@ -259,9 +262,12 @@ function MainList(props) {
       return;
     }
     if (uploadedPDF) {
-      await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF);
+      await Storage.put(props.username + "/" + uploadedPDF.name, uploadedPDF, {
+        contentType: 'application/pdf',
+        contentDisposition: 'inline',
+      });
     }
-    await updateUploadedFile();
+    await updateUploadedFile(); 
     onClose();
     toastHelper("Resume saved", "success");
     fetchPDF();
