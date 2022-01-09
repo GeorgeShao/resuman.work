@@ -479,7 +479,7 @@ function MainList(props) {
               <Td>{pdf.resumeName}</Td>
               <Td>resuman.work/{pdf.customURL}</Td>
               <Td>
-                <Link href={pdf.s3URL} isExternal>
+                <Link href={"/" + pdf.customURL} isExternal>
                   View <ExternalLinkIcon mx="2px" />
                 </Link>
               </Td>
