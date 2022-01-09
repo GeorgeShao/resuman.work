@@ -10,6 +10,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import SpecialButton from "../ui/SpecialButton";
 
 export default function Hero({
   title,
@@ -55,25 +56,13 @@ export default function Hero({
           {subtitle}
         </Heading>
         <Link to={ctaLink}>
-          <Button
-            borderRadius="8px"
-            py="4"
-            px="4"
-            lineHeight="1"
-            size="md"
-            _hover={{
-              bg: "brand.light",
-            }}
-          >
-            {ctaText}
-          </Button>
+          <SpecialButton message={ctaText} width={210} />
         </Link>
         <Text fontSize="xs" mt={2} textAlign="center" opacity="0.6">
           No credit card required.
         </Text>
       </Stack>
       <Box w={{ base: "80%", sm: "60%", md: "50%" }} mb={{ base: 12, md: 0 }}>
-        {/* TODO: Make this change every X secs */}
         <Image src={image} size="100%" rounded="1rem" shadow="2xl" />
       </Box>
     </Flex>

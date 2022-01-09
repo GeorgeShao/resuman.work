@@ -4,7 +4,7 @@ import { Heading } from "@chakra-ui/react";
 function WelcomeText(props) {
   return (
     <div>
-      <Heading as="h2" size="2xl" textAlign="left" isTruncated mb={8} pl={8}>
+      <Heading as="h2" size="2xl" textAlign="left" isTruncated mb={8} pl={8} color="brand.main">
         Welcome {props.username}
       </Heading>
     </div>

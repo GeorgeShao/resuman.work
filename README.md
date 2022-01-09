@@ -1,4 +1,4 @@
-# resuman
+# Resuman.work
 Resume management simplified.
 
 # Getting Started with Create React App

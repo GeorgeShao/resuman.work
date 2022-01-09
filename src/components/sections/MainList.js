@@ -5,6 +5,7 @@ import {
   Link,
   Table,
   TableCaption,
+  Text,
   Thead,
   Tbody,
   Tr,
@@ -18,6 +19,7 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
+  Flex,
   FormControl,
   FormLabel,
   Input,
@@ -31,6 +33,7 @@ import {
   AlertDialogOverlay,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
+import SpecialButton from "../ui/SpecialButton";
 
 import { API, Storage, graphqlOperation } from "aws-amplify";
 import { filesByUsername, listUploadedFiles } from "../../graphql/queries";
@@ -69,6 +72,20 @@ function MainList(props) {
   const toast = useToast();
 
   const [dateTime, setDateTime] = useState(getDateTime());
+
+  const MenuItems = (props) => {
+    const { children, isLast, to = "/", ...rest } = props;
+    return (
+      <Text
+        mb={{ base: isLast ? 0 : 8, sm: 0 }}
+        mr={{ base: 0, sm: isLast ? 0 : 4 }}
+        display="block"
+        {...rest}
+      >
+        <Link to={to}>{children}</Link>
+      </Text>
+    );
+  };
 
   useEffect(() => {
     fetchPDF();
@@ -264,6 +281,14 @@ function MainList(props) {
     fetchPDF();
   }
 
+  async function openDeleteModal() {
+    if (selectedPDF !== 0 && selectedPDF !== undefined) {
+      setRemoveDialogIsOpen(true);
+    } else {
+      toastHelper("Error", "error", "Please select a resume to delete");
+    }
+  }
+
   async function closeDeleteModal() {
     await deletepdf();
     await setSelectedPDF(0);
@@ -271,16 +296,20 @@ function MainList(props) {
   }
 
   async function openEditModal() {
-    setOnEditMode(true);
-    let chosenPDF = PDF.filter((pdf) => pdf.id === selectedPDF)[0];
-    setFormData({
-      resumeName: chosenPDF.resumeName,
-      s3URL: chosenPDF.s3URL,
-      customURL: chosenPDF.customURL,
-      username: props.username,
-    });
-    setUploadedPDF();
-    onOpen();
+    try {
+      setOnEditMode(true);
+      let chosenPDF = PDF.filter((pdf) => pdf.id === selectedPDF)[0];
+      setFormData({
+        resumeName: chosenPDF.resumeName,
+        s3URL: chosenPDF.s3URL,
+        customURL: chosenPDF.customURL,
+        username: props.username,
+      });
+      setUploadedPDF();
+      onOpen();
+    } catch (error) {
+      toastHelper("Error", "error", "Please select a resume to edit");
+    }
   }
 
   async function closeEditModal() {
@@ -359,26 +388,36 @@ function MainList(props) {
 
   return (
     <Container textAlign="left" mb={8} pl={8} pr={8} maxW="7xl">
-      <Button ml="2" onClick={openAddModal} _hover={{ bg: "brand.light" }}>
-        Add
-      </Button>
-      <Button
-        ml="2"
-        onClick={() => setRemoveDialogIsOpen(true)}
-        _hover={{ bg: "brand.light" }}
-        isDisabled={removeButtonIsDisabled}
+      <Flex
+        align={["center", "center", "center", "center"]}
+        justify={["center", "space-between", "flex-start", "flex-start"]}
+        direction={["column", "row", "row", "row"]}
+        pt={[4, 4, 0, 0]}
       >
-        Delete
-      </Button>
-      <Button
-        ml="2"
-        onClick={openEditModal}
-        _hover={{ bg: "brand.light" }}
-        isDisabled={editButtonIsDisabled}
-      >
-        Edit
-      </Button>
-
+        <MenuItems>
+          <div onClick={openAddModal}>
+            <SpecialButton message="Add" width={70} />
+          </div>
+        </MenuItems>
+        <MenuItems>
+          <div onClick={openDeleteModal}>
+            <SpecialButton
+              message="Delete"
+              width={70}
+              isDisabled={removeButtonIsDisabled}
+            />
+          </div>
+        </MenuItems>
+        <MenuItems>
+          <div onClick={openEditModal}>
+            <SpecialButton
+              message="Edit"
+              width={70}
+              isDisabled={editButtonIsDisabled}
+            />
+          </div>
+        </MenuItems>
+      </Flex>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -486,7 +525,7 @@ function MainList(props) {
             </Tr>
           ))}
         </Tbody>
-        <TableCaption>Copyright George Shao 2021</TableCaption>
+        <TableCaption>Made by George Shao & Justin Gu (2022)</TableCaption>
       </Table>
     </Container>
   );

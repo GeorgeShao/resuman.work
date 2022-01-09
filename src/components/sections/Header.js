@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import { Box, Flex, Text, Button } from "@chakra-ui/react";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import Logo from "../ui/Logo";
+import SpecialButton from "../ui/SpecialButton";
 
 const MenuItems = (props) => {
   const { children, isLast, to = "/", ...rest } = props;
   return (
     <Text
       mb={{ base: isLast ? 0 : 8, sm: 0 }}
-      mr={{ base: 0, sm: isLast ? 0 : 8 }}
+      mr={{ base: 0, sm: isLast ? 0 : 4 }}
       display="block"
       {...rest}
     >
@@ -34,7 +35,7 @@ const Header = (props) => {
       {...props}
     >
       <Flex align="center">
-        <Logo w="100px" />
+        <Logo />
       </Flex>
 
       <Box display={{ base: "block", md: "none" }} onClick={toggleMenu}>
@@ -51,40 +52,8 @@ const Header = (props) => {
           direction={["column", "row", "row", "row"]}
           pt={[4, 4, 0, 0]}
         >
-          <MenuItems
-            to="/"
-            _hover={{
-              color: "brand.dark",
-            }}
-          >
-            Home
-          </MenuItems>
-          {/* <MenuItems
-            to="/features"
-            _hover={{
-              color: "brand.dark",
-            }}
-          >
-            Features
-          </MenuItems>
-          <MenuItems
-            to="/pricing"
-            _hover={{
-              color: "brand.dark",
-            }}
-          >
-            Pricing
-          </MenuItems> */}
           <MenuItems to="/dashboard" isLast>
-            <Button
-              size="sm"
-              rounded="md"
-              _hover={{
-                bg: "brand.light",
-              }}
-            >
-              Sign In
-            </Button>
+            <SpecialButton message="Sign In" width={100}/>
           </MenuItems>
         </Flex>
       </Box>

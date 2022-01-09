@@ -5,7 +5,7 @@ export default function Logo(props) {
   return (
     <Box {...props}>
       <Text fontSize="xl" fontWeight="bold" color="brand.main">
-        Resuman
+        Resuman.work
       </Text>
     </Box>
   );
