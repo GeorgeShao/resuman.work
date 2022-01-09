@@ -40,7 +40,7 @@ import {
   deleteUploadedFile as deleteUploadedFileMutation,
 } from "../../graphql/mutations";
 
-import getDateTime from "../../utils/getDateTime"
+import getDateTime from "../../utils/getDateTime";
 
 const initialFormState = {
   resumeName: "",
@@ -134,7 +134,12 @@ function MainList(props) {
 
   async function createUploadedFile() {
     formData.username = props.username;
-    formData.s3URL = props.username + "/" + uploadedPDF.name.replace(/\.[^/.]+$/, "") + dateTime + ".pdf";
+    formData.s3URL =
+      props.username +
+      "/" +
+      uploadedPDF.name.replace(/\.[^/.]+$/, "") +
+      dateTime +
+      ".pdf";
     await API.graphql({
       query: createUploadedFileMutation,
       variables: { input: formData },
@@ -147,7 +152,12 @@ function MainList(props) {
     formData.username = props.username;
     formData.id = selectedPDF;
     if (uploadedPDF) {
-      formData.s3URL = props.username + "/" + uploadedPDF.name.replace(/\.[^/.]+$/, "") + dateTime + ".pdf";
+      formData.s3URL =
+        props.username +
+        "/" +
+        uploadedPDF.name.replace(/\.[^/.]+$/, "") +
+        dateTime +
+        ".pdf";
     } else {
       formData.s3URL = undefined;
     }
@@ -187,7 +197,11 @@ function MainList(props) {
     await setDateTime(getDateTime());
 
     if (formData.customURL.length < 7) {
-      toastHelper("Custom link too short", "error", "Custom links must be 7+ characters");
+      toastHelper(
+        "Custom link too short",
+        "error",
+        "Custom links must be 7+ characters"
+      );
       await setSaveButtonIsDisabled(false);
       return;
     }
@@ -223,15 +237,27 @@ function MainList(props) {
     }
 
     if (uploadedPDF.size > 250000) {
-      toastHelper("File too large", "error", "Resumes must be under 250KB in size");
+      toastHelper(
+        "File too large",
+        "error",
+        "Resumes must be under 250KB in size"
+      );
       await setSaveButtonIsDisabled(false);
       return;
     }
 
-    await Storage.put(props.username + "/" + uploadedPDF.name.replace(/\.[^/.]+$/, "") + dateTime + ".pdf", uploadedPDF, {
-      contentType: 'application/pdf',
-      contentDisposition: 'inline',
-    });
+    await Storage.put(
+      props.username +
+        "/" +
+        uploadedPDF.name.replace(/\.[^/.]+$/, "") +
+        dateTime +
+        ".pdf",
+      uploadedPDF,
+      {
+        contentType: "application/pdf",
+        contentDisposition: "inline",
+      }
+    );
     await createUploadedFile();
     onClose();
     toastHelper("Resume saved", "success");
@@ -263,7 +289,11 @@ function MainList(props) {
     await setDateTime(getDateTime());
 
     if (formData.customURL.length < 7) {
-      toastHelper("Custom link too short", "error", "Custom links must be 7+ characters");
+      toastHelper(
+        "Custom link too short",
+        "error",
+        "Custom links must be 7+ characters"
+      );
       await setSaveButtonIsDisabled(false);
       return;
     }
@@ -299,17 +329,29 @@ function MainList(props) {
         return;
       }
       if (uploadedPDF.size > 250000) {
-        toastHelper("File too large", "error", "Resumes must be under 250KB in size");
+        toastHelper(
+          "File too large",
+          "error",
+          "Resumes must be under 250KB in size"
+        );
         await setSaveButtonIsDisabled(false);
         return;
       }
 
-      await Storage.put(props.username + "/" + uploadedPDF.name.replace(/\.[^/.]+$/, "") + dateTime + ".pdf", uploadedPDF, {
-        contentType: 'application/pdf',
-        contentDisposition: 'inline',
-      });
+      await Storage.put(
+        props.username +
+          "/" +
+          uploadedPDF.name.replace(/\.[^/.]+$/, "") +
+          dateTime +
+          ".pdf",
+        uploadedPDF,
+        {
+          contentType: "application/pdf",
+          contentDisposition: "inline",
+        }
+      );
     }
-    await updateUploadedFile(); 
+    await updateUploadedFile();
     onClose();
     toastHelper("Resume saved", "success");
     fetchPDF();
@@ -356,9 +398,7 @@ function MainList(props) {
               />
             </FormControl>
             <FormControl mt={4}>
-              <FormLabel>
-                Custom link - resuman.work/[custom_link]
-              </FormLabel>
+              <FormLabel>Custom link - resuman.work/[custom_link]</FormLabel>
               <Input
                 placeholder="johnsmith_dev_resume"
                 value={formData.customURL}
@@ -368,7 +408,10 @@ function MainList(props) {
               />
             </FormControl>
             <FormControl mt={4}>
-              <FormLabel>Upload a file{onEditMode ? " (leave empty to use previous resume)" : ""}</FormLabel>
+              <FormLabel>
+                Upload a file
+                {onEditMode ? " (leave empty to use previous resume)" : ""}
+              </FormLabel>
               <Input type="file" onChange={onChange} />
             </FormControl>
           </ModalBody>
