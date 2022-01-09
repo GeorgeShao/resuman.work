@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import LandingPage from "./pages/LandingPage";
 import DashboardPage from "./pages/DashboardPage";
+import RedirectPage from "./pages/RedirectPage";
 
 export default function App() {
   return (
@@ -14,6 +15,11 @@ export default function App() {
         <Route exact path="/dashboard">
           <DashboardPage />
         </Route>
+        <Route
+          exact
+          path="/:shortlink"
+          render={(props) => <RedirectPage {...props} />}
+        />
       </Switch>
     </BrowserRouter>
   );

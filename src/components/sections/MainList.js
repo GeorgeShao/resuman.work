@@ -179,6 +179,7 @@ function MainList(props) {
   }
 
   async function closeAddModal() {
+    formData.customURL = formData.customURL.trim().toLowerCase();
     await setSaveButtonIsDisabled(true);
     let customURLAlreadyExists = false;
     let filter = {
@@ -189,7 +190,11 @@ function MainList(props) {
     );
     try {
       let fetched_customURL = fetched_data.data.listUploadedFiles.items[0];
-      customURLAlreadyExists = true;
+      if (fetched_customURL === undefined) {
+        customURLAlreadyExists = false;
+      } else {
+        customURLAlreadyExists = true;
+      }
     } catch (error) {
       customURLAlreadyExists = false;
     }
@@ -227,6 +232,7 @@ function MainList(props) {
   }
 
   async function closeEditModal() {
+    formData.customURL = formData.customURL.trim().toLowerCase();
     await setSaveButtonIsDisabled(true);
     let customURLAlreadyExists = false;
     let filter = {
@@ -303,10 +309,10 @@ function MainList(props) {
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>
-                Custom link - resuman.work/[your_custom_link_here]
+                Custom link - resuman.work/[custom_link]
               </FormLabel>
               <Input
-                placeholder="johnsmith_software_resume"
+                placeholder="johnsmith_dev_resume"
                 value={formData.customURL}
                 onChange={(e) =>
                   setFormData({ ...formData, customURL: e.target.value })
@@ -314,7 +320,7 @@ function MainList(props) {
               />
             </FormControl>
             <FormControl mt={4}>
-              <FormLabel>Upload a file</FormLabel>
+              <FormLabel>Upload a file{onEditMode ? " (leave empty to use previous resume)" : ""}</FormLabel>
               <Input type="file" onChange={onChange} />
             </FormControl>
           </ModalBody>
